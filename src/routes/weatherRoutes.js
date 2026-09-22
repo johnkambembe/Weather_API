@@ -3,7 +3,7 @@ import express from 'express'
 
 const router = express.Router()
 
-router.get('/', async (req, res) => {
+router.get('/:city', async (req, res) => {
 
     const { city } = req.params;
     
