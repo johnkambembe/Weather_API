@@ -1,29 +1,16 @@
 import express from 'express'
 import dotenv from 'dotenv'
 
+import router from './src/routes/weatherRoutes.js'
+
 dotenv.config()
 const app = express()
+app.use('/weather/api/:city', router)
 
 
 const PORT = process.env.PORT || 5000; 
 
-app.get('/weather/:city', async (req, res) => {
-
-    const { city } = req.params;
-     
-    const response = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=metric&key=${process.env.WEATHER_API_KEY}`);
-    const data = await response.json();
-
-    res.json({
-            city: data.resolvedAddress,
-            temperature: data.currentConditions.temp,
-            conditions: data.currentConditions.conditions,
-            humidity: data.currentConditions.humidity,
-            windSpeed: data.currentConditions.windspeed,
-            description: data.description
-        });
-
-});
+app.use('/api', router)
 
 app.listen(PORT, () => {
     console.log(`the server is runnig on ${PORT}`)
