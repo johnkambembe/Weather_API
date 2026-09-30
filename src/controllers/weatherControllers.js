@@ -1,4 +1,5 @@
 
+import client from "../config/redis.js";
 
 const weather_api = async (req, res) => {
 
@@ -16,8 +17,14 @@ const weather_api = async (req, res) => {
             description: data.description
     })
 
-    client.setex(city)
-    res.send(essent);
+    client.setEx(
+        city,
+        60,
+        JSON.stringify(essent)
+    )
+
+    
+    res.json(essent);
 
 };
 

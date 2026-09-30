@@ -1,23 +1,21 @@
-import express from 'express'
-import dotenv from 'dotenv'
-import redis from 'redis'
+import express from "express";
+import dotenv from "dotenv";
 
-import router from './src/routes/weatherRoutes.js'
+import router from "./src/routes/weatherRoutes.js";
+import client from "./src/config/redis.js";
 
-dotenv.config()
-const app = express()
+dotenv.config();
 
-app.use('/weather/api/', router)
+const app = express();
 
+app.use("/weather/api/", router);
 
-const PORT = process.env.PORT || 5000; 
-const REDIS_PORT = process.env.REDIS || 6379;
+const PORT = process.env.PORT || 5000;
 
-const client = redis.createClient(REDIS_PORT)
+await client.connect();
 
+console.log("Redis connected");
 
 app.listen(PORT, () => {
-    console.log(`the server is runnig on ${PORT}`)
-})
-
-export default client;
+    console.log(`The server is running on ${PORT}`);
+});
