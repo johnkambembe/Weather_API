@@ -4,6 +4,15 @@ import client from "../config/redis.js";
 const weather_api = async (req, res) => {
 
     const { city } = req.params;
+
+    const cacheData = await client.get(city)
+
+
+    if(cacheData) {
+        console.log("data from redis")
+        return res.json(JSON.parse(cacheData))
+    }
+    
     
     const response = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=metric&key=${process.env.WEATHER_API_KEY}`);
     const data = await response.json();
@@ -17,13 +26,13 @@ const weather_api = async (req, res) => {
             description: data.description
     })
 
-    client.setEx(
+    await client.setEx(
         city,
-        60,
+        300,
         JSON.stringify(essent)
     )
 
-    
+    console.log("data from weather-api")
     res.json(essent);
 
 };
