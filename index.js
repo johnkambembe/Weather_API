@@ -1,10 +1,10 @@
 import express from "express";
-import dotenv from "dotenv";
+import dotenv from "dotenv/config";
 
 import router from "./src/routes/weatherRoutes.js";
 import client from "./src/config/redis.js";
 
-dotenv.config();
+
 
 const app = express();
 
