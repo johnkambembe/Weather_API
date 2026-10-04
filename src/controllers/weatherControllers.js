@@ -7,14 +7,18 @@ const weather_api = async (req, res) => {
 
     const cacheData = await client.get(city)
 
-
+    //fetch data from redis
     if(cacheData) {
         console.log("data from redis")
         return res.json(JSON.parse(cacheData))
     }
     
+    //fech data from Visaulcrossing_Api
+    const response = await fetch(
+        `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=metric&key=${process.env.WEATHER_API_KEY}`
+
+    );
     
-    const response = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=metric&key=${process.env.WEATHER_API_KEY}`);
     const data = await response.json();
 
     const essent = ({

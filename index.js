@@ -8,7 +8,7 @@ dotenv.config();
 
 const app = express();
 
-app.use("/weather/api/", router);
+app.use("/weather/", router);
 
 const PORT = process.env.PORT || 5000;
 
