@@ -3,7 +3,8 @@ import client from "../config/redis.js";
 
 const weather_api = async (req, res) => {
 
-    const { city } = req.params;
+        try {
+            const { city } = req.params;
 
     const cacheData = await client.get(city)
 
@@ -38,6 +39,15 @@ const weather_api = async (req, res) => {
 
     console.log("data from weather-api")
     res.json(essent);
+
+
+
+        } catch(error) {
+            
+            res.status(500).json({message: "endpoint no found"})
+            console.error(error)
+
+        }
 
 };
 
