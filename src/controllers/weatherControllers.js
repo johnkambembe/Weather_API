@@ -10,7 +10,6 @@ const weather_api = async (req, res) => {
 
     //fetch data from redis
     if(cacheData) {
-        console.log("data from redis")
         return res.json(JSON.parse(cacheData))
     }
     
@@ -37,7 +36,6 @@ const weather_api = async (req, res) => {
         JSON.stringify(essent)
     )
 
-    console.log("data from weather-api")
     res.json(essent);
 
 
